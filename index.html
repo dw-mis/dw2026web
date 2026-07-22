@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>桌卡修改系統 v3.7 - 精簡版</title>
+    <title>桌卡修改系統 v3.8</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
     </script>
@@ -162,9 +162,6 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-        .paper-row .paper-option:hover {
-            border-color: #c9a03d;
-        }
         .paper-row .paper-option.active {
             border-color: #c9a03d;
             background: #f5ede2;
@@ -296,7 +293,7 @@
         }
 
         /* ====================================================================
-           卡片列表 - 精簡
+           卡片列表
            ==================================================================== */
         .card-item {
             background: white;
@@ -304,11 +301,6 @@
             padding: 8px 10px;
             margin-bottom: 6px;
             border: 1px solid #e8ddd0;
-            position: relative;
-            transition: border-color 0.2s;
-        }
-        .card-item:hover {
-            border-color: #dac29c;
         }
         .card-item .card-header {
             display: flex;
@@ -391,7 +383,6 @@
             cursor: pointer;
             padding: 2px 4px;
             border-radius: 20px;
-            transition: 0.2s;
             line-height: 1;
         }
         .card-item .field-row .btn-del-field:hover {
@@ -409,7 +400,6 @@
             font-size: 0.65rem;
             font-weight: 600;
             margin-top: 2px;
-            transition: 0.2s;
             font-family: inherit;
         }
         .btn-add-field:hover {
@@ -417,7 +407,6 @@
             background: rgba(201, 160, 61, 0.05);
         }
 
-        /* 桌卡內容區域內的按鈕 */
         .card-section-actions {
             display: flex;
             gap: 6px;
@@ -433,7 +422,6 @@
             font-size: 0.65rem;
             font-weight: 600;
             font-family: inherit;
-            transition: 0.2s;
             white-space: nowrap;
         }
         .card-section-actions .btn-clear-inline:hover {
@@ -452,7 +440,6 @@
             font-size: 0.7rem;
             font-weight: 600;
             font-family: inherit;
-            transition: 0.2s;
         }
         .card-section-actions .btn-add-card-inline:hover {
             border-color: #c9a03d;
@@ -460,20 +447,24 @@
         }
 
         /* ====================================================================
-           預覽 - v3.7 手機優化版
+           v3.8 預覽區 - 重新設計
            ==================================================================== */
+
+        /* 外框：使用 padding 控制空間，不依賴 min-height */
         .preview-area {
             background: #f5ede2;
             border-radius: 14px;
-            padding: 10px 8px;
+            padding: 16px 12px;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 110px;
             border: 2px dashed #dac29c;
             overflow: hidden;
+            /* 根據卡片縮放比例動態調整 */
+            min-height: 180px;
         }
 
+        /* 白色卡片：固定原始尺寸 */
         .preview-frame {
             background: white;
             display: flex;
@@ -481,41 +472,19 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             border-radius: 2px;
             border: 1px solid #ddd;
-            transition: all 0.2s;
-            /* 固定原始尺寸 */
             width: 130mm;
             height: 140mm;
+            flex-shrink: 0;
         }
         .preview-frame.large {
             width: 148mm;
             height: 210mm;
         }
 
-        /* 縮放控制 - 手機與電腦分開 */
+        /* 縮放控制：只控制卡片顯示大小 */
         .preview-wrapper {
             transform: scale(0.40);
             transform-origin: center center;
-        }
-
-        /* 手機 (小螢幕) */
-        @media (max-width: 480px) {
-            .preview-wrapper {
-                transform: scale(0.38);
-            }
-        }
-
-        /* 平板 (中螢幕) */
-        @media (min-width: 481px) and (max-width: 768px) {
-            .preview-wrapper {
-                transform: scale(0.50);
-            }
-        }
-
-        /* 電腦 (大螢幕) */
-        @media (min-width: 769px) {
-            .preview-wrapper {
-                transform: scale(0.65);
-            }
         }
 
         .preview-half {
@@ -558,7 +527,7 @@
             align-items: center;
             justify-content: center;
             gap: 12px;
-            margin-top: 4px;
+            margin-top: 6px;
         }
         .preview-nav button {
             background: #dac29c;
@@ -570,7 +539,6 @@
             font-size: 0.85rem;
             cursor: pointer;
             font-weight: 700;
-            transition: 0.2s;
         }
         .preview-nav button:hover {
             background: #c9a03d;
@@ -589,7 +557,67 @@
         }
 
         /* ====================================================================
-           按鈕 - 只剩 PDF
+           v3.8 手機自適應 - 統一管理，無 !important
+           ==================================================================== */
+
+        /* 手機 (寬度 ≤ 480px) */
+        @media (max-width: 480px) {
+            /* 外框縮小，與卡片比例協調 */
+            .preview-area {
+                padding: 10px 8px;
+                min-height: 140px;
+            }
+
+            .preview-wrapper {
+                transform: scale(0.35);
+            }
+
+            /* 極小螢幕再縮小 */
+            @media (max-width: 380px) {
+                .preview-area {
+                    padding: 8px 6px;
+                    min-height: 120px;
+                }
+                .preview-wrapper {
+                    transform: scale(0.30);
+                }
+            }
+
+            @media (max-width: 320px) {
+                .preview-area {
+                    padding: 6px 4px;
+                    min-height: 100px;
+                }
+                .preview-wrapper {
+                    transform: scale(0.25);
+                }
+            }
+        }
+
+        /* 平板 (481px ~ 768px) */
+        @media (min-width: 481px) and (max-width: 768px) {
+            .preview-area {
+                padding: 16px 14px;
+                min-height: 180px;
+            }
+            .preview-wrapper {
+                transform: scale(0.50);
+            }
+        }
+
+        /* 電腦 (≥ 769px) */
+        @media (min-width: 769px) {
+            .preview-area {
+                padding: 20px 16px;
+                min-height: 220px;
+            }
+            .preview-wrapper {
+                transform: scale(0.65);
+            }
+        }
+
+        /* ====================================================================
+           按鈕
            ==================================================================== */
         .btn-group {
             display: grid;
@@ -605,7 +633,6 @@
             font-weight: 700;
             font-size: 0.95rem;
             cursor: pointer;
-            transition: all 0.2s;
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -613,18 +640,13 @@
             width: 100%;
             font-family: inherit;
         }
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
 
         .btn-pdf {
             background: #6a8a7a;
             color: white;
         }
-        .btn-pdf:hover:not(:disabled) {
+        .btn-pdf:hover {
             background: #5a7a6a;
-            transform: translateY(-1px);
         }
 
         /* ====================================================================
@@ -721,103 +743,18 @@
             font-size: 0.7rem;
             margin-top: 8px;
         }
-
-        /* ====================================================================
-           極小螢幕優化
-           ==================================================================== */
-        @media (max-width: 400px) {
-            .container {
-                padding: 10px 8px 14px;
-                border-radius: 20px;
-            }
-            h1 {
-                font-size: 1.0rem;
-            }
-            .section {
-                padding: 8px 10px;
-                margin-bottom: 6px;
-            }
-            .venue-row .field-group input {
-                font-size: 0.8rem;
-                padding: 6px 10px;
-            }
-            .card-item .field-row {
-                grid-template-columns: 18px 1fr 44px 18px;
-                gap: 2px;
-            }
-            .card-item .field-row input[type="text"] {
-                font-size: 0.7rem;
-                padding: 3px 6px;
-            }
-            .card-item .field-row select {
-                font-size: 0.55rem;
-            }
-            .style-row .style-item select {
-                font-size: 0.65rem;
-                padding: 4px 8px;
-                height: 30px;
-            }
-            .paper-row .paper-option {
-                padding: 4px 10px;
-            }
-            .paper-row .paper-option label {
-                font-size: 0.7rem;
-            }
-            .paper-row .paper-option .size-desc {
-                font-size: 0.5rem;
-            }
-            .excel-import-area input[type="file"] {
-                font-size: 0.65rem;
-                padding: 5px 8px;
-            }
-            .excel-import-area .btn-import {
-                font-size: 0.7rem;
-                padding: 6px 12px;
-            }
-            .btn {
-                font-size: 0.85rem;
-                padding: 10px 12px;
-            }
-            .preview-wrapper {
-                transform: scale(0.32) !important;
-            }
-            .preview-area {
-                min-height: 110px;
-                padding: 6px 4px;
-            }
-            .card-section-actions {
-                flex-wrap: wrap;
-            }
-            .card-section-actions .btn-add-card-inline {
-                min-width: 100%;
-            }
-        }
-
-        @media (max-width: 340px) {
-            .preview-wrapper {
-                transform: scale(0.28) !important;
-            }
-            .preview-area {
-                min-height: 130px;
-            }
-        }
     </style>
 </head>
 <body>
 
     <div class="container">
         <div class="header">
-            <h1>📋 桌卡修改系統 <span class="badge">v3.7</span></h1>
+            <h1>📋 桌卡修改系統 <span class="badge">v3.8</span></h1>
         </div>
 
-        <!-- ====================================================================
-        日期廳房
-        ==================================================================== -->
+        <!-- 日期廳房 -->
         <div class="section">
-            <div class="section-title">
-                🏷️ 日期廳房
-                <span class="required">*必填</span>
-            </div>
+            <div class="section-title">🏷️ 日期廳房 <span class="required">*必填</span></div>
             <div class="venue-row">
                 <div class="field-group">
                     <label>📅 日期 (MMDD)</label>
@@ -831,14 +768,9 @@
             <div class="venue-display" id="venueDisplay">合併顯示：mmdd-xx廳</div>
         </div>
 
-        <!-- ====================================================================
-        紙張尺寸
-        ==================================================================== -->
+        <!-- 紙張尺寸 -->
         <div class="section">
-            <div class="section-title">
-                📐 紙張尺寸
-                <span class="badge-new">NEW</span>
-            </div>
+            <div class="section-title">📐 紙張尺寸 <span class="badge-new">NEW</span></div>
             <div class="paper-row" id="paperSizeRow">
                 <div class="paper-option active" data-value="small">
                     <input type="radio" name="paperSize" value="small" id="paperSmall" checked>
@@ -850,31 +782,23 @@
                 </div>
             </div>
             <div style="font-size:0.6rem;color:#b0a090;margin-top:4px;">
-                ⚠️ 列印時皆以 A4 紙張左上角為基準，請依實際需求選擇尺寸
+                ⚠️ 列印時皆以 A4 紙張左上角為基準
             </div>
         </div>
 
-        <!-- ====================================================================
-        Excel 匯入
-        ==================================================================== -->
+        <!-- Excel 匯入 -->
         <div class="section">
-            <div class="section-title">
-                📂 匯入 Excel
-                <span class="badge-new">NEW</span>
-            </div>
+            <div class="section-title">📂 匯入 Excel <span class="badge-new">NEW</span></div>
             <div class="excel-import-area">
                 <input type="file" id="excelFile" accept=".xlsx,.xls,.csv">
                 <button class="btn-import" id="importBtn" onclick="importExcel()">📥 匯入產生卡片</button>
             </div>
             <div class="excel-import-info">
                 💡 支援 <span class="highlight">.xlsx / .xls / .csv</span>，每列產生一張桌卡（最多 6 欄）
-                <br>匯入後仍可<span class="highlight">逐張手動編輯</span>文字與字體大小
             </div>
         </div>
 
-        <!-- ====================================================================
-        文字樣式
-        ==================================================================== -->
+        <!-- 文字樣式 -->
         <div class="section">
             <div class="section-title">🎨 文字樣式</div>
             <div class="style-row">
@@ -896,27 +820,21 @@
             </div>
         </div>
 
-        <!-- ====================================================================
-        桌卡內容
-        ==================================================================== -->
+        <!-- 桌卡內容 -->
         <div class="section">
             <div class="section-title">
                 ✏️ 桌卡內容
                 <span class="required">*至少 1 張</span>
                 <span style="font-size:0.6rem;color:#8899a6;margin-left:auto;" id="cardCount">共 0 張</span>
             </div>
-            <div id="cardsContainer">
-                <!-- 由 JavaScript 動態產生 -->
-            </div>
+            <div id="cardsContainer"></div>
             <div class="card-section-actions">
                 <button class="btn-add-card-inline" onclick="addCard()">＋ 新增卡片</button>
                 <button class="btn-clear-inline" onclick="clearAll()">🗑️ 清空</button>
             </div>
         </div>
 
-        <!-- ====================================================================
-        預覽
-        ==================================================================== -->
+        <!-- 預覽 -->
         <div class="section">
             <div class="section-title">👁️ 預覽</div>
             <div class="preview-area" id="previewArea">
@@ -939,18 +857,13 @@
             </div>
         </div>
 
-        <!-- ====================================================================
-        按鈕 - 轉存 PDF
-        ==================================================================== -->
+        <!-- 轉存 PDF -->
         <div class="btn-group">
             <button class="btn btn-pdf" id="pdfBtn" onclick="generatePDFOnPhone()">📄 轉存 PDF</button>
         </div>
-
     </div>
 
-    <!-- ====================================================================
-    PDF 進度遮罩
-    ==================================================================== -->
+    <!-- PDF 進度遮罩 -->
     <div class="pdf-progress-overlay" id="pdfProgressOverlay">
         <div class="pdf-progress-card">
             <span class="icon">📄</span>
@@ -1264,7 +1177,7 @@
                     previewIndex = 0;
                     updatePreviewIndex();
 
-                    showToast(`✅ 成功匯入 ${cards.length} 張卡片，可繼續手動編輯調整`);
+                    showToast(`✅ 成功匯入 ${cards.length} 張卡片`);
 
                 } catch (err) {
                     showToast('❌ 匯入失敗: ' + err.message);
@@ -1340,7 +1253,7 @@
         }
 
         // ========================================================================
-        //  PDF 生成（前端）
+        //  PDF 生成
         // ========================================================================
 
         function generatePDFOnPhone() {
@@ -1410,7 +1323,7 @@
                     setTimeout(function() {
                         doc.save(fileName);
                         overlay.classList.remove('active');
-                        showToast('✅ ' + fileName + ' 已下載 (' + totalCards + ' 張)', 'success');
+                        showToast('✅ ' + fileName + ' 已下載 (' + totalCards + ' 張)');
                     }, 300);
                     return;
                 }
@@ -1469,10 +1382,6 @@
             processCard(0);
         }
 
-        // ========================================================================
-        //  產生單張卡片的 HTML（PDF 專用）
-        // ========================================================================
-
         function generateCardHTMLForPDF(card, paperSize, textColor, fontWeight) {
             const isLarge = paperSize === 'large';
             const cardW = isLarge ? 148 : 130;
@@ -1505,7 +1414,7 @@
         }
 
         // ========================================================================
-        //  清空全部（含確認提醒）
+        //  清空
         // ========================================================================
 
         function clearAll() {
@@ -1570,8 +1479,7 @@
 
             document.getElementById('dateInput').focus();
 
-            console.log('✅ 桌卡修改系統 v3.7 精簡版載入完成');
-            console.log('📌 功能：Excel 匯入、大小桌卡選擇、前端產生 PDF');
+            console.log('✅ 桌卡修改系統 v3.8 載入完成');
         });
     </script>
 
