@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>桌卡修改系統 v3.7精簡版</title>
+    <title>桌卡修改系統 v3.6 - 編輯桌卡</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -471,120 +471,119 @@
             background: rgba(201, 160, 61, 0.05);
         }
 
-        /* ====================================================================
-           預覽 - 外框縮小，內容維持可辨識
-           ==================================================================== */
-        .preview-area {
-            background: #f5ede2;
-            border-radius: 14px;
-            padding: 8px 6px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 140px;
-            border: 2px dashed #dac29c;
-            overflow: hidden;
-        }
+/* ====================================================================
+   預覽 - 卡片原始尺寸，靠 scale 控制顯示大小
+   ==================================================================== */
+.preview-area {
+    background: #f5ede2;
+    border-radius: 14px;
+    padding: 8px 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    border: 2px dashed #dac29c;
+    overflow: hidden;
+}
 
-        .preview-frame {
-            background: white;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            border-radius: 2px;
-            border: 1px solid #ddd;
-            transition: all 0.2s;
-        }
-        .preview-frame.small {
-            width: 90mm;
-            height: 97mm;
-        }
-        .preview-frame.large {
-            width: 102mm;
-            height: 145mm;
-        }
-        .preview-wrapper {
-            transform: scale(0.45);
-            transform-origin: center center;
-        }
-        @media (min-width: 400px) {
-            .preview-wrapper { transform: scale(0.55); }
-        }
-        @media (min-width: 480px) {
-            .preview-wrapper { transform: scale(0.65); }
-        }
-        @media (min-width: 600px) {
-            .preview-wrapper { transform: scale(0.80); }
-        }
+.preview-frame {
+    background: white;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-radius: 2px;
+    border: 1px solid #ddd;
+    transition: all 0.2s;
+}
+.preview-frame.small {
+    width: 130mm;
+    height: 140mm;
+}
+.preview-frame.large {
+    width: 148mm;
+    height: 210mm;
+}
+.preview-wrapper {
+    transform: scale(0.22);
+    transform-origin: center center;
+}
+@media (min-width: 400px) {
+    .preview-wrapper { transform: scale(0.28); }
+}
+@media (min-width: 480px) {
+    .preview-wrapper { transform: scale(0.35); }
+}
+@media (min-width: 600px) {
+    .preview-wrapper { transform: scale(0.45); }
+}
 
-        .preview-half {
-            width: 100%;
-            height: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2px 6px;
-        }
-        .preview-half.top {
-            transform: rotate(180deg);
-        }
-        .preview-content {
-            text-align: center;
-            width: 100%;
-        }
-        .preview-line {
-            word-break: break-word;
-            line-height: 1.2;
-            margin: 1px 0;
-        }
+.preview-half {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 6px;
+}
+.preview-half.top {
+    transform: rotate(180deg);
+}
+.preview-content {
+    text-align: center;
+    width: 100%;
+}
+.preview-line {
+    word-break: break-word;
+    line-height: 1.2;
+    margin: 1px 0;
+}
 
-        .fold-line {
-            text-align: center;
-            font-size: 6px;
-            color: #bbb;
-            letter-spacing: 2px;
-            padding: 1px 0;
-            border-top: 1px dashed #ddd;
-            border-bottom: 1px dashed #ddd;
-            background: #f9f9f9;
-            flex-shrink: 0;
-        }
+.fold-line {
+    text-align: center;
+    font-size: 6px;
+    color: #bbb;
+    letter-spacing: 2px;
+    padding: 1px 0;
+    border-top: 1px dashed #ddd;
+    border-bottom: 1px dashed #ddd;
+    background: #f9f9f9;
+    flex-shrink: 0;
+}
 
-        .preview-nav {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 4px;
-        }
-        .preview-nav button {
-            background: #dac29c;
-            border: none;
-            color: #5a4030;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            font-size: 0.85rem;
-            cursor: pointer;
-            font-weight: 700;
-            transition: 0.2s;
-        }
-        .preview-nav button:hover {
-            background: #c9a03d;
-            color: white;
-        }
-        .preview-nav button:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-        .preview-nav .preview-index {
-            color: #8b6946;
-            font-size: 0.7rem;
-            font-weight: 600;
-            min-width: 50px;
-            text-align: center;
-        }
-
+.preview-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 4px;
+}
+.preview-nav button {
+    background: #dac29c;
+    border: none;
+    color: #5a4030;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-weight: 700;
+    transition: 0.2s;
+}
+.preview-nav button:hover {
+    background: #c9a03d;
+    color: white;
+}
+.preview-nav button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+.preview-nav .preview-index {
+    color: #8b6946;
+    font-size: 0.7rem;
+    font-weight: 600;
+    min-width: 50px;
+    text-align: center;
+}
         /* ====================================================================
            按鈕區域 - 只剩 PDF 按鈕
            ==================================================================== */
@@ -820,7 +819,7 @@
 
 <div class="container">
     <div class="header">
-        <h1>📋 桌卡修改系統 <span class="badge">v3.7精簡版</span></h1>
+        <h1>📋 桌卡修改系統 <span class="badge">v3.6</span></h1>
     </div>
 
     <!-- ====================================================================
@@ -1588,7 +1587,7 @@
 
         document.getElementById('dateInput').focus();
 
-        console.log('✅ 桌卡修改系統 v3.7 - 手機精簡版載入完成');
+        console.log('✅ 桌卡修改系統 v3.6 - 手機精簡版載入完成');
         console.log('📌 功能：Excel 匯入、大小桌卡選擇、前端產生 PDF');
     });
 </script>
